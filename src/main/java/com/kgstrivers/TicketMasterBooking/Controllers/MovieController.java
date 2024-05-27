@@ -20,12 +20,12 @@ public class MovieController {
         return ResponseEntity.ok(movieService.addMovies(movie));
     }
 
-    @GetMapping("/getMovies/{moviename}")
+    @GetMapping("/getMoviesWithTheatre/{moviename}")
     public ResponseEntity getMovies(@PathVariable String moviename){
         return ResponseEntity.ok(movieService.getAllTheatre(moviename));
     }
 
-    @GetMapping("/getMovies/{moviename}/{pincode}")
+    @GetMapping("/getMoviesWithTheatre/{moviename}/{pincode}")
     public ResponseEntity getMovies(@PathVariable String moviename, @PathVariable Long pincode){
         return ResponseEntity.ok(movieService.getAllTheatresByPincodeAndMovieName(pincode, moviename));
     }
