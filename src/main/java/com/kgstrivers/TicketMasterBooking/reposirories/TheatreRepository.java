@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TheatreRepository  extends JpaRepository<Theatre, Long> {
+    Theatre findByName(String theatreName);
 }

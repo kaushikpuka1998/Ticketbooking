@@ -1,6 +1,7 @@
 package com.kgstrivers.TicketMasterBooking.services;
 
 import com.kgstrivers.TicketMasterBooking.models.Movie;
+import com.kgstrivers.TicketMasterBooking.models.Screen;
 import com.kgstrivers.TicketMasterBooking.models.Theatre;
 import com.kgstrivers.TicketMasterBooking.reposirories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,20 @@ import java.util.List;
 public class MovieService {
     @Autowired
     MovieRepository movieRepository;
+
     public Movie addMovies(Movie movie) {
+        Movie retrievedMovie = movieRepository.findByMovieName(movie.getMovieName());
+        if (retrievedMovie != null) {
+            throw new RuntimeException("Movie already exists");
+        }
         return movieRepository.save(movie);
     }
 
     public List<Theatre> getAllTheatre(String MovieName) {
         List<Theatre> theatres = new ArrayList<>();
-        try{
-            return  theatres = movieRepository.findByMovieName(MovieName).getTheatres();
-        }
-        catch (Exception e) {
+        try {
+            return theatres = movieRepository.findByMovieName(MovieName).getTheatres();
+        } catch (Exception e) {
             return theatres;
         }
     }
@@ -34,6 +39,18 @@ public class MovieService {
             theatres.addAll(movie.getTheatres());
         }
         return theatres;
+    }
+
+    public Movie getMovieByName(String movieName, List<Theatre> theatres) {
+        Movie movie = movieRepository.findByMovieName(movieName);
+        if (movie != null) {
+            List<Theatre> theatresList = movie.getTheatres();
+            theatresList.addAll(theatres);
+            movieRepository.save(movie);
+            return movie;
+        }else{
+            throw new RuntimeException("Movie not found");
+        }
     }
 
 }

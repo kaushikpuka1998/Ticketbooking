@@ -16,6 +16,5 @@ public class ShowSeat extends Seat{
     private Show show;
     private double price;
     private BookStatus bookStatus;
-    @OneToOne
-    private Booking booking;
 }
+
