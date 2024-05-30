@@ -12,7 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -28,6 +30,6 @@ public class Theatre {
 
     @JsonIgnore
     @ManyToMany( mappedBy = "theatres")
-    private List<Movie> movies;
+    private Set<Movie> movies;
 
 }

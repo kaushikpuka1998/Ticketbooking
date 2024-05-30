@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MovieService {
@@ -17,14 +19,31 @@ public class MovieService {
 
     public Movie addMovies(Movie movie) {
         Movie retrievedMovie = movieRepository.findByMovieName(movie.getMovieName());
-        if (retrievedMovie != null) {
+        if(retrievedMovie!=null){
             throw new RuntimeException("Movie already exists");
         }
         return movieRepository.save(movie);
     }
 
-    public List<Theatre> getAllTheatre(String MovieName) {
-        List<Theatre> theatres = new ArrayList<>();
+    public Movie updateTheatreToMovie(Movie movie) {
+        Movie retrievedMovie = movieRepository.findByMovieName(movie.getMovieName());
+        if(retrievedMovie!=null){
+            retrievedMovie.setMovieName(movie.getMovieName());
+            retrievedMovie.setReleaseDate(movie.getReleaseDate());
+            retrievedMovie.setSummary(movie.getSummary());
+            retrievedMovie.setGenre(movie.getGenre());
+            retrievedMovie.setTheatres(movie.getTheatres());
+            retrievedMovie.setCities(movie.getCities());
+            return movieRepository.save(retrievedMovie);
+
+        }
+        else{
+            throw new RuntimeException("Movie not found");
+        }
+    }
+
+    public Set<Theatre> getAllTheatre(String MovieName) {
+        Set<Theatre> theatres = new HashSet<>();
         try {
             return theatres = movieRepository.findByMovieName(MovieName).getTheatres();
         } catch (Exception e) {
@@ -44,7 +63,7 @@ public class MovieService {
     public Movie getMovieByName(String movieName, List<Theatre> theatres) {
         Movie movie = movieRepository.findByMovieName(movieName);
         if (movie != null) {
-            List<Theatre> theatresList = movie.getTheatres();
+            Set<Theatre> theatresList = movie.getTheatres();
             theatresList.addAll(theatres);
             movieRepository.save(movie);
             return movie;

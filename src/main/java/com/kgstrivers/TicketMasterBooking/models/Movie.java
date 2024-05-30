@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -35,7 +36,7 @@ public class Movie {
            joinColumns = { @JoinColumn(name = "movie_id") },
            inverseJoinColumns = { @JoinColumn(name = "theatre_id") }
    )
-   List<Theatre> theatres;
+   Set<Theatre> theatres;
     @ManyToMany
     List<City> cities;
 }
